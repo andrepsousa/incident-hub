@@ -3,6 +3,7 @@ package com.andrepereira.incidenthub.service;
 import com.andrepereira.incidenthub.domain.Incident;
 import com.andrepereira.incidenthub.dto.CreateIncidentRequest;
 import com.andrepereira.incidenthub.dto.IncidentResponse;
+import com.andrepereira.incidenthub.exception.IncidentNotFoundException;
 import com.andrepereira.incidenthub.repository.IncidentRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -62,9 +63,7 @@ public class IncidentService {
         Incident incident = incidentRepository
                 .findByCode(code)
                 .orElseThrow(() ->
-                        new IllegalArgumentException(
-                                "Incident not found: " + code
-                        )
+                        new IncidentNotFoundException(code)
                 );
 
         return IncidentResponse.from(incident);
